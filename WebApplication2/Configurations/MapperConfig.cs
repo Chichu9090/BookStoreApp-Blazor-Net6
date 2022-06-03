@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using WebApplication2.Data;
 using WebApplication2.Models.Author;
+using WebApplication2.Models.Book;
 
 namespace WebApplication2.Configurations
 {
@@ -11,6 +12,15 @@ namespace WebApplication2.Configurations
             CreateMap<AuthorCreateDTO, Author>().ReverseMap();  
             CreateMap<AuthorUpdateDTO, Author>().ReverseMap();  
             CreateMap<AuthorReadOnlyDTO, Author>().ReverseMap();  
+
+            CreateMap<BookCreateDTO, Author>().ReverseMap();  
+            CreateMap<BookUpdateDTO, Author>().ReverseMap();  
+            CreateMap<Book, BookReadOnlyDTO>()
+                .ForMember(connString => connString.AuthorName,d => d.MapFrom(map => $"{map.Author.FirstName} {map.Author.LastName}"))
+                .ReverseMap();
+            CreateMap<Book, BookDetailsDTO>()
+                .ForMember(connString => connString.AuthorName, d => d.MapFrom(map => $"{map.Author.FirstName} {map.Author.LastName}"))
+                .ReverseMap();
         }
     }
 }
