@@ -2,6 +2,7 @@
 using WebApplication2.Data;
 using WebApplication2.Models.Author;
 using WebApplication2.Models.Book;
+using WebApplication2.Models.User;
 
 namespace WebApplication2.Configurations
 {
@@ -21,6 +22,8 @@ namespace WebApplication2.Configurations
             CreateMap<Book, BookDetailsDTO>()
                 .ForMember(connString => connString.AuthorName, d => d.MapFrom(map => $"{map.Author.FirstName} {map.Author.LastName}"))
                 .ReverseMap();
+
+            CreateMap<APIUser, UserDto>().ReverseMap();
         }
     }
 }

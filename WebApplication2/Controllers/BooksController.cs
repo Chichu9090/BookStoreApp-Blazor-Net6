@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using AutoMapper.QueryableExtensions;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -14,6 +15,7 @@ namespace WebApplication2.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class BooksController : ControllerBase
     {
         private readonly BookStoreDBContext _context;
@@ -52,6 +54,7 @@ namespace WebApplication2.Controllers
         // PUT: api/Books/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
+        [Authorize(Roles = "Administrator")]
         public async Task<IActionResult> PutBook(int id, BookUpdateDTO bookUpdateDTO)
         {
             if (id != bookUpdateDTO.Id)
@@ -89,6 +92,7 @@ namespace WebApplication2.Controllers
         // POST: api/Books
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
+        [Authorize(Roles = "Administrator")]
         public async Task<ActionResult<BookCreateDTO>> PostBook(BookCreateDTO bookCreateDTO)
         {
           if (_context.Books == null)
@@ -105,6 +109,7 @@ namespace WebApplication2.Controllers
 
         // DELETE: api/Books/5
         [HttpDelete("{id}")]
+        [Authorize(Roles ="Administrator")]
         public async Task<IActionResult> DeleteBook(int id)
         {
             if (_context.Books == null)

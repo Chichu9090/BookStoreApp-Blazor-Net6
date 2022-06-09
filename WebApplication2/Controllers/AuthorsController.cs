@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.DotNet.Scaffolding.Shared.Messaging;
@@ -15,6 +16,7 @@ namespace WebApplication2.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class AuthorsController : ControllerBase
     {
         private readonly BookStoreDBContext _context;
@@ -72,6 +74,7 @@ namespace WebApplication2.Controllers
         // PUT: api/Authors/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
+        [Authorize(Roles = "Administrator")]
         public async Task<IActionResult> PutAuthor(int id, AuthorUpdateDTO authorUpdateDTO)
         {
 
@@ -121,6 +124,7 @@ namespace WebApplication2.Controllers
         // POST: api/Authors
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
+        [Authorize(Roles = "Administrator")]
         public async Task<ActionResult<AuthorCreateDTO>> PostAuthor(AuthorCreateDTO authorCreateDTO)
         {
             try
@@ -140,6 +144,7 @@ namespace WebApplication2.Controllers
 
         // DELETE: api/Authors/5
         [HttpDelete("{id}")]
+        [Authorize(Roles = "Administrator")]
         public async Task<IActionResult> DeleteAuthor(int id)
         {
             try
