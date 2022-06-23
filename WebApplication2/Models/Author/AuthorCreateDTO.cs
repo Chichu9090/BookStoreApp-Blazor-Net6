@@ -13,7 +13,7 @@ namespace WebApplication2.Models.Author
         public string LastName { get; set; }
 
         [StringLength(250)]
-        public string Bio { get; set; }   
+        public string? Bio { get; set; }   
 
     }
 }

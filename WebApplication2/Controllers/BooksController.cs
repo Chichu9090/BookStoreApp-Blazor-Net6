@@ -20,11 +20,13 @@ namespace WebApplication2.Controllers
     {
         private readonly BookStoreDBContext _context;
         private readonly IMapper mapper;
+        private readonly IWebHostEnvironment webHostEnvironment;
 
-        public BooksController(BookStoreDBContext context, IMapper mapper)
+        public BooksController(BookStoreDBContext context, IMapper mapper,IWebHostEnvironment webHostEnvironment)
         {
             _context = context;
             this.mapper = mapper;
+            this.webHostEnvironment = webHostEnvironment;
         }
 
         // GET: api/Books
@@ -66,6 +68,19 @@ namespace WebApplication2.Controllers
 
             if (book == null) return NotFound();
 
+            if(string.IsNullOrEmpty(bookUpdateDTO.ImageData) == false)
+            {
+                bookUpdateDTO.Image = CreateFile(bookUpdateDTO.ImageData,bookUpdateDTO.OriginalImageName);
+
+                var picName = Path.GetFileName(book.Image);
+                var path = $"{webHostEnvironment.WebRootPath}\\bookcoverimages\\{picName}";
+                if (System.IO.File.Exists(path))
+                {
+                    System.IO.File.Delete(path);
+                }
+
+            }
+
             mapper.Map(bookUpdateDTO, book);
 
             _context.Entry(book).State = EntityState.Modified;
@@ -100,7 +115,9 @@ namespace WebApplication2.Controllers
               return Problem("Entity set 'BookStoreDBContext.Books'  is null.");
           }
 
-          var book = mapper.Map<Book>(bookCreateDTO);  
+           
+            var book = mapper.Map<Book>(bookCreateDTO);  
+            book.Image = CreateFile(bookCreateDTO.ImageData, bookCreateDTO.OriginalImageName);
             _context.Books.Add(book);
             await _context.SaveChangesAsync();
 
@@ -131,6 +148,23 @@ namespace WebApplication2.Controllers
         private bool BookExists(int id)
         {
             return (_context.Books?.Any(e => e.Id == id)).GetValueOrDefault();
+        }
+
+        private string CreateFile(string imageBase64, string imageName)
+        {
+            var url = HttpContext.Request.Host.Value;
+            var ext = Path.GetExtension(imageName);
+            var fileName = $"{Guid.NewGuid()}{ext}";
+
+            var path = $"{webHostEnvironment.WebRootPath}\\bookcoverimages\\{fileName}";
+
+            byte[] image = Convert.FromBase64String(imageBase64);
+
+            var fileStream = System.IO.File.Create(path);
+            fileStream.Write(image, 0, image.Length);
+            fileStream.Close();
+
+            return $"https://{url}/bookcoverimages/{fileName}";
         }
     }
 }

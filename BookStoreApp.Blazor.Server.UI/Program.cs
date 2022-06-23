@@ -17,6 +17,7 @@ builder.Services.AddHttpClient<IClient,Client>(cl => cl.BaseAddress = new Uri("h
 
 builder.Services.AddScoped<IAuthenticationServices, AuthenticationServices>();
 builder.Services.AddScoped<IAuthorService, AuthorService>();
+builder.Services.AddScoped<IBookService, BookService>();
 builder.Services.AddAutoMapper(typeof(MapperConfig));
 
 builder.Services.AddScoped<ApiAuthenticationStateProvider>();
