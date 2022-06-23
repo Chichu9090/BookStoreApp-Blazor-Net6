@@ -51,7 +51,7 @@ namespace WebApplication2.Controllers
                 return BadRequest(ModelState);
             }
 
-            await userManager.AddToRoleAsync(user, "User");
+            await userManager.AddToRoleAsync(user, userDto.Role);
             return Accepted();  
 
         }

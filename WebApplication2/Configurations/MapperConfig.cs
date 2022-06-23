@@ -11,11 +11,12 @@ namespace WebApplication2.Configurations
         public MapperConfig()
         {
             CreateMap<AuthorCreateDTO, Author>().ReverseMap();  
+            CreateMap<AuthorDetailsDTO, Author>().ReverseMap();  
             CreateMap<AuthorUpdateDTO, Author>().ReverseMap();  
             CreateMap<AuthorReadOnlyDTO, Author>().ReverseMap();  
 
-            CreateMap<BookCreateDTO, Author>().ReverseMap();  
-            CreateMap<BookUpdateDTO, Author>().ReverseMap();  
+            CreateMap<BookCreateDTO, Book>().ReverseMap();  
+            CreateMap<BookUpdateDTO, Book>().ReverseMap();  
             CreateMap<Book, BookReadOnlyDTO>()
                 .ForMember(connString => connString.AuthorName,d => d.MapFrom(map => $"{map.Author.FirstName} {map.Author.LastName}"))
                 .ReverseMap();

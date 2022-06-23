@@ -96,7 +96,7 @@ namespace WebApplication2.Data
                    NormalizedEmail =    "ADMIN@BOOKSTORE.COM",
                    FirstName =  "System",
                    LastName =   "Admin",
-                   PasswordHash = hasher.HashPassword(null,"Password@")
+                   PasswordHash = hasher.HashPassword(null,"P@ssword1")
 
                },
                new APIUser
@@ -106,7 +106,7 @@ namespace WebApplication2.Data
                    NormalizedEmail = "USER@BOOKSTORE.COM",
                    FirstName = "System",
                    LastName = "User",
-                   PasswordHash = hasher.HashPassword(null, "Password@")
+                   PasswordHash = hasher.HashPassword(null, "P@ssword1")
                }
                );
 
